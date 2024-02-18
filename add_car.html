@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Car</title>
+</head>
+<body>
+    <h1>Add Car</h1>
+    <form id="addCarForm">
+        <label for="carId">Car ID:</label>
+        <input type="number" id="carId" name="carId" required>
+        <br>
+        <label for="carName">Car Name:</label>
+        <input type="text" id="carName" name="carName" required>
+        <br>
+        <button type="submit">Add Car</button>
+    </form>
+
+    <script>
+        document.getElementById('addCarForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const carId = document.getElementById('carId').value;
+            const carName = document.getElementById('carName').value;
+
+            try {
+                const response = await fetch('/voiture/add/' + carId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: carName })
+                });
+
+                if (response.ok) {
+                    alert('Car added successfully!');
+                } else {
+                    alert('Failed to add car. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
